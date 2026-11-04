@@ -57,7 +57,7 @@ public class DropService {
         Instant now = clock.instant().truncatedTo(ChronoUnit.SECONDS);
         Instant expires = now.plus(Duration.ofHours(settings.freeWindowHours()));
         String code = codes.newCode();
-        while (parcels.codeInUse(codes.hash(code))) {               // no two parcels share a code
+        while (parcels.codeInUse(codes.hash(code))) {            // two waiting parcels never share a code. 
             code = codes.newCode();
         }
         long parcel = parcels.insert(towerId, flat, size, door.id(), now, codes.hash(code), expires);
